@@ -3,7 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from .db import engine
 
-app = FastAPI()
+app = FastAPI(
+    title="School Management System API",
+    description="API for managing teachers, classes, students, grades, and school fees.",
+    version="1.0.0",
+)
 
 origins = [
     "http://localhost:3000",
