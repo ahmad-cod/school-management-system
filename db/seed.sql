@@ -27,10 +27,10 @@ INSERT INTO classes (class_name, grade_level, teacher_id, room_number, capacity)
 -- ---------------------------------------------------------------------------
 INSERT INTO students (first_name, last_name, date_of_birth, gender, class_id, parent_name, parent_phone, address, enrolled_at) VALUES
   -- Grade 4A (class_id = 1)
-  ('Chidi',    'Okafor',    '2014-03-12', 'M', 1, 'Mr. Okafor Senior',  '07011111111', '12 Aba Road, Enugu',          '2023-09-04'),
+  ('Isa',    'Okafor',    '2014-03-12', 'M', 1, 'Mr. Okafor Senior',  '07011111111', '12 Aba Road, Enugu',          '2023-09-04'),
   ('Aisha',   'Nwosu',     '2014-07-25', 'F', 1, 'Mrs. Nwosu',         '07022222222', '5 Independence Layout, Enugu', '2023-09-04'),
   ('Kelvin',   'Obi',       '2013-11-30', 'M', 1, 'Mr. Obi Kelvin Sr',  '07033333333', '8 GRA Phase 2, Enugu',         '2023-09-04'),
-  ('Blessing', 'Eze',       '2014-01-18', 'F', 1, 'Mrs. Eze Blessing',  '07044444444', '3 Ogui Road, Enugu',           '2023-09-04'),
+  ('Adam', 'Eze',       '2014-01-18', 'F', 1, 'Mrs. Eze Adam',  '07044444444', '3 Ogui Road, Enugu',           '2023-09-04'),
 
   -- Grade 4B (class_id = 2)
   ('Ikenna',   'Nnaji',     '2014-05-09', 'M', 2, 'Chief Nnaji',        '07055555555', '20 Zik Avenue, Enugu',         '2023-09-04'),
@@ -68,7 +68,7 @@ INSERT INTO students (first_name, last_name, date_of_birth, gender, class_id, pa
 -- grade_letter is auto-computed by the GENERATED column in the schema
 -- ---------------------------------------------------------------------------
 INSERT INTO grades (student_id, subject, score, term, exam_type, recorded_at) VALUES
-  -- Student 1: Chidi Okafor
+  -- Student 1: Isa Okafor
   (1, 'Mathematics',    82.50, 'Term 1 2024', 'End of Term', '2024-03-20'),
   (1, 'English',        75.00, 'Term 1 2024', 'End of Term', '2024-03-20'),
   (1, 'Basic Science',  88.00, 'Term 1 2024', 'End of Term', '2024-03-20'),
@@ -80,7 +80,7 @@ INSERT INTO grades (student_id, subject, score, term, exam_type, recorded_at) VA
   (3, 'Mathematics',    60.00, 'Term 1 2024', 'End of Term', '2024-03-20'),
   (3, 'English',        55.00, 'Term 1 2024', 'End of Term', '2024-03-20'),
   (3, 'Basic Science',  67.50, 'Term 1 2024', 'End of Term', '2024-03-20'),
-  -- Student 4: Blessing Eze
+  -- Student 4: Adam Eze
   (4, 'Mathematics',    94.00, 'Term 1 2024', 'End of Term', '2024-03-20'),
   (4, 'English',        90.00, 'Term 1 2024', 'End of Term', '2024-03-20'),
   (4, 'Basic Science',  92.50, 'Term 1 2024', 'End of Term', '2024-03-20'),
