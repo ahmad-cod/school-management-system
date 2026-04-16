@@ -1,7 +1,5 @@
 -- =============================================================================
 -- School Management System — Schema Migration
--- File: 01_schema.sql
--- Run order: 1st
 -- =============================================================================
 
 -- Drop tables in reverse dependency order (safe to re-run)
@@ -72,6 +70,7 @@ CREATE TABLE grades (
                           WHEN score >= 80 THEN 'B'
                           WHEN score >= 70 THEN 'C'
                           WHEN score >= 60 THEN 'D'
+                          WHEN score >= 50 THEN 'E'
                           ELSE 'F'
                       END
                   ) STORED,
@@ -99,7 +98,7 @@ CREATE TABLE school_fees (
     status        VARCHAR(20)     NOT NULL DEFAULT 'unpaid'
                                   CHECK (status IN ('unpaid', 'partial', 'paid')),
     payment_method VARCHAR(30),   -- e.g. 'bank transfer', 'cash', 'online'
-    notes         TEXT,
+    notes         TEXT           DEFAULT NULL,
     created_at    TIMESTAMP       NOT NULL DEFAULT NOW(),
 
     -- One fee record per student per term
