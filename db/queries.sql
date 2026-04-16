@@ -1,7 +1,6 @@
 -- =============================================================================
 -- School Management System — SQL Queries
--- File: 03_queries.sql
--- Run order: 3rd (after 01_schema.sql + 02_seed.sql)
+-- Run order: 3rd (after schema.sql + 02_seed.sql)
 -- =============================================================================
 
 
@@ -9,8 +8,7 @@
 -- ║  SECTION 1 — BASIC SELECTS & JOINS                                       ║
 -- ╚═══════════════════════════════════════════════════════════════════════════╝
 
--- Q1. All students with their class names
--- Skill: Basic JOIN
+-- 1. All students with their class names
 SELECT
     s.student_id,
     s.first_name || ' ' || s.last_name  AS full_name,
@@ -21,8 +19,7 @@ JOIN classes c ON s.class_id = c.class_id
 ORDER BY c.grade_level, c.class_name, s.last_name;
 
 
--- Q2. All classes with their assigned teachers
--- Skill: JOIN across 3 tables
+-- 2. All classes with their assigned teachers
 SELECT
     c.class_name,
     c.grade_level,
@@ -34,8 +31,7 @@ JOIN teachers t ON c.teacher_id = t.teacher_id
 ORDER BY c.grade_level, c.class_name;
 
 
--- Q3. All grades for a specific student (student_id = 14: Chisom Eze)
--- Skill: Filtered JOIN
+-- 3. All grades for a specific student (student_id = 14: Chisom Eze)
 SELECT
     s.first_name || ' ' || s.last_name  AS student_name,
     g.subject,
@@ -236,7 +232,7 @@ ORDER BY school_average DESC;
 
 
 -- ╔═══════════════════════════════════════════════════════════════════════════╗
--- ║  SECTION 5 — USEFUL VIEWS (save these as shortcuts in pgAdmin)           ║
+-- ║  SECTION 5 — USEFUL VIEWS                                                 ║ 
 -- ╚═══════════════════════════════════════════════════════════════════════════╝
 
 -- View: Student directory with class and teacher info
