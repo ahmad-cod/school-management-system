@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -18,100 +18,32 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Search, Plus, MoreHorizontal, Filter, Download, Mail, Phone } from "lucide-react"
+import { Search, Plus, MoreHorizontal, Filter, Download } from "lucide-react"
+import { StudentRecord, studentService } from "@/services/api"
 
-const students = [
-  {
-    id: "STU001",
-    name: "Emma Thompson",
-    email: "emma.t@student.edu",
-    phone: "+1 234-567-8901",
-    grade: "Grade 12-A",
-    parentName: "Robert Thompson",
-    status: "active",
-    joinDate: "2023-08-15",
-  },
-  {
-    id: "STU002",
-    name: "James Wilson",
-    email: "james.w@student.edu",
-    phone: "+1 234-567-8902",
-    grade: "Grade 11-B",
-    parentName: "Mary Wilson",
-    status: "active",
-    joinDate: "2023-08-20",
-  },
-  {
-    id: "STU003",
-    name: "Sophia Chen",
-    email: "sophia.c@student.edu",
-    phone: "+1 234-567-8903",
-    grade: "Grade 12-A",
-    parentName: "David Chen",
-    status: "active",
-    joinDate: "2022-08-10",
-  },
-  {
-    id: "STU004",
-    name: "Oliver Martinez",
-    email: "oliver.m@student.edu",
-    phone: "+1 234-567-8904",
-    grade: "Grade 10-A",
-    parentName: "Carlos Martinez",
-    status: "inactive",
-    joinDate: "2024-01-05",
-  },
-  {
-    id: "STU005",
-    name: "Isabella Brown",
-    email: "isabella.b@student.edu",
-    phone: "+1 234-567-8905",
-    grade: "Grade 11-A",
-    parentName: "Jennifer Brown",
-    status: "active",
-    joinDate: "2023-08-18",
-  },
-  {
-    id: "STU006",
-    name: "William Johnson",
-    email: "william.j@student.edu",
-    phone: "+1 234-567-8906",
-    grade: "Grade 9-A",
-    parentName: "Michael Johnson",
-    status: "active",
-    joinDate: "2024-08-12",
-  },
-  {
-    id: "STU007",
-    name: "Ava Williams",
-    email: "ava.w@student.edu",
-    phone: "+1 234-567-8907",
-    grade: "Grade 10-B",
-    parentName: "Sarah Williams",
-    status: "active",
-    joinDate: "2023-09-01",
-  },
-  {
-    id: "STU008",
-    name: "Ethan Davis",
-    email: "ethan.d@student.edu",
-    phone: "+1 234-567-8908",
-    grade: "Grade 12-B",
-    parentName: "Thomas Davis",
-    status: "active",
-    joinDate: "2022-08-15",
-  },
-]
 
 export default function StudentsPage() {
   const [searchQuery, setSearchQuery] = useState("")
+  const [students, setStudentsData] = useState<StudentRecord[]>([])
+
 
   const filteredStudents = students.filter(
-    (student) =>
-      student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      student.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      student.grade.toLowerCase().includes(searchQuery.toLowerCase())
+    (student: StudentRecord) =>
+      student.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      student.student_id.toString().includes(searchQuery.toLowerCase()) ||
+      student.grade_level.toString().includes(searchQuery.toLowerCase())
   )
+
+  useEffect(() => {
+    studentService.getAll()
+      .then((data) => {
+        console.log("Fetched students:", data)
+        setStudentsData(data)
+      })
+      .catch((error) => {
+        console.error("Error fetching students:", error)
+      })
+  }, [])
 
   return (
     <DashboardLayout title="Students" subtitle="Manage student records">
@@ -150,32 +82,32 @@ export default function StudentsPage() {
             <TableRow className="border-border hover:bg-transparent">
               <TableHead className="text-muted-foreground">Student ID</TableHead>
               <TableHead className="text-muted-foreground">Name</TableHead>
-              <TableHead className="text-muted-foreground hidden md:table-cell">Contact</TableHead>
+              <TableHead className="text-muted-foreground hidden md:table-cell">Class</TableHead>
               <TableHead className="text-muted-foreground">Grade</TableHead>
-              <TableHead className="text-muted-foreground hidden lg:table-cell">Parent</TableHead>
+              {/* <TableHead className="text-muted-foreground hidden lg:table-cell">Parent</TableHead> */}
               <TableHead className="text-muted-foreground">Status</TableHead>
               <TableHead className="text-muted-foreground text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredStudents.map((student) => (
-              <TableRow key={student.id} className="border-border">
-                <TableCell className="font-medium text-card-foreground">{student.id}</TableCell>
+              <TableRow key={student.student_id} className="border-border">
+                <TableCell className="font-medium text-card-foreground">STU00{student.student_id}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/20 text-primary font-medium text-sm">
-                      {student.name
+                      {student.full_name
                         .split(" ")
                         .map((n) => n[0])
                         .join("")}
                     </div>
                     <div>
-                      <p className="font-medium text-card-foreground">{student.name}</p>
-                      <p className="text-xs text-muted-foreground md:hidden">{student.email}</p>
+                      <p className="font-medium text-card-foreground">{student.full_name}</p>
+                      {/* <p className="text-xs text-muted-foreground md:hidden">{student.email}</p> */}
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="hidden md:table-cell">
+                {/* <TableCell className="hidden md:table-cell">
                   <div className="space-y-1">
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
                       <Mail className="h-3 w-3" />
@@ -183,12 +115,14 @@ export default function StudentsPage() {
                     </div>
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
                       <Phone className="h-3 w-3" />
+node_modules
                       {student.phone}
                     </div>
                   </div>
-                </TableCell>
-                <TableCell className="text-card-foreground">{student.grade}</TableCell>
-                <TableCell className="hidden lg:table-cell text-muted-foreground">{student.parentName}</TableCell>
+                </TableCell> */}
+                <TableCell className="text-card-foreground">{student.class_name}</TableCell>
+                {/* <TableCell className="hidden lg:table-cell text-muted-foreground">{student.parentName}</TableCell> */}
+                <TableCell className="text-card-foreground">{student.grade_level}</TableCell>
                 <TableCell>
                   <span
                     className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
