@@ -73,3 +73,55 @@ async def list_students(db=Depends(get_db)):
     """
     rows = await db.fetch(query)
     return [dict(row) for row in rows]
+
+@app.get("/api/v1/classes")
+async def list_classes(db=Depends(get_db)):
+    query = """
+        SELECT
+            c.class_name,
+            c.grade_level,
+            c.room_number,
+            t.first_name || ' ' || t.last_name  AS teacher_name,
+            t.subject                            AS teacher_subject
+        FROM classes c
+        JOIN teachers t ON c.teacher_id = t.teacher_id
+        ORDER BY c.grade_level, c.class_name
+    """
+    rows = await db.fetch(query)
+    return [dict(row) for row in rows]
+
+@app.get("/api/v1/teachers")
+async def list_teachers(db=Depends(get_db)):
+    query = """
+        SELECT
+            t.teacher_id,
+            t.first_name || ' ' || t.last_name  AS full_name,
+            t.subject,
+            COUNT(c.class_id) AS num_classes
+        FROM teachers t
+        LEFT JOIN classes c ON t.teacher_id = c.teacher_id
+        GROUP BY t.teacher_id
+        ORDER BY t.last_name, t.first_name
+    """
+    rows = await db.fetch(query)
+    return [dict(row) for row in rows]
+
+# 3.All grades for a specific student (student_id = 14: Chisom Eze)
+@app.get("/api/v1/students/{student_id}/grades")
+async def student_grades(student_id: int, db=Depends(get_db)):
+    query = """
+        SELECT
+            s.first_name || ' ' || s.last_name  AS student_name,
+            g.subject,
+            g.score,
+            g.grade_letter,
+            g.term,
+            g.exam_type
+        FROM grades g
+        JOIN students s ON g.student_id = s.student_id
+        WHERE g.student_id = $1
+        ORDER BY g.subject;
+    """
+    rows = await db.fetch(query, student_id)
+    return [dict(row) for row in rows]
+
