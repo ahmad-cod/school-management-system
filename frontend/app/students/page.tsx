@@ -19,13 +19,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Search, Plus, MoreHorizontal, Filter, Download } from "lucide-react"
-import { StudentRecord, studentService } from "@/services/api"
+import { StudentRecord, studentService } from "@/services/studentService"
+import { ClassOption, classService } from "@/services/classService"
+import AddStudentModal from "@/components/AddStudentModal"
 
 
 export default function StudentsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [students, setStudentsData] = useState<StudentRecord[]>([])
-
+  const [classes, setClasses] = useState<ClassOption[]>([])
+  const [showAddModal, setShowAddModal] = useState(false)
 
   const filteredStudents = students.filter(
     (student: StudentRecord) =>
@@ -43,6 +46,7 @@ export default function StudentsPage() {
       .catch((error) => {
         console.error("Error fetching students:", error)
       })
+      classService.getAll().then(setClasses).catch(console.error);
   }, [])
 
   return (
@@ -68,13 +72,19 @@ export default function StudentsPage() {
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>
-          <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
+          <Button 
+            size="sm" 
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+            onClick={() => setShowAddModal(true)}
+          >
             <Plus className="mr-2 h-4 w-4" />
             Add Student
           </Button>
         </div>
       </div>
-
+      
+      <AddStudentModal classes={classes} />
+  
       {/* Students Table */}
       <div className="rounded-xl border border-border bg-card">
         <Table>
