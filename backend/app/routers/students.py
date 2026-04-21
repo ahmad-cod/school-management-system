@@ -54,6 +54,7 @@ async def student_grades(student_id: int, db=Depends(get_db)):
 
 @router.post("/")
 async def add_student(student: StudentCreate, db=Depends(get_db)):
+    print(f"DEBUG: Adding student {student.first_name} {student.last_name} to class_id {student.class_id}")
     query = """
         INSERT INTO students (first_name, last_name, date_of_birth, gender, class_id, parent_name, parent_phone)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
@@ -67,5 +68,6 @@ async def add_student(student: StudentCreate, db=Depends(get_db)):
         )
         return {"message": "Student added successfully", "student_id": new_id}
     except Exception as e:
+        print(f"ERROR: Failed to add student - {e}")
         # Handle foreign key or check constraint violations
         raise HTTPException(status_code=400, detail=str(e))
