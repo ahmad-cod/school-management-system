@@ -26,7 +26,7 @@ import AddStudentModal from "@/components/AddStudentModal"
 
 export default function StudentsPage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [students, setStudentsData] = useState<StudentRecord[]>([])
+  const [students, setStudents] = useState<StudentRecord[]>([])
   const [classes, setClasses] = useState<ClassOption[]>([])
   const [showAddModal, setShowAddModal] = useState(false)
 
@@ -41,7 +41,7 @@ export default function StudentsPage() {
     studentService.getAll()
       .then((data) => {
         console.log("Fetched students:", data)
-        setStudentsData(data)
+        setStudents(data)
       })
       .catch((error) => {
         console.error("Error fetching students:", error)
@@ -83,7 +83,7 @@ export default function StudentsPage() {
         </div>
       </div>
       
-      <AddStudentModal classes={classes} />
+      <AddStudentModal classes={classes} setStudentsData={setStudents} />
   
       {/* Students Table */}
       <div className="rounded-xl border border-border bg-card">
