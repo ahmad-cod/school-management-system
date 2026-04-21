@@ -1,9 +1,12 @@
 import os
 import asyncpg
+from dotenv import load_dotenv
 from asyncpg import Connection
 from fastapi import Request
 
 # Load environment variables
+load_dotenv()
+
 DB_USER = os.getenv("DB_USER")
 DB_PASS = os.getenv("DB_PASSWORD")
 DB_NAME = os.getenv("DB_NAME")
