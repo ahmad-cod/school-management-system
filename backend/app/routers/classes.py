@@ -10,6 +10,7 @@ router = APIRouter(
 async def list_classes(db=Depends(get_db)):
     query = """
         SELECT
+            c.class_id,
             c.class_name,
             c.grade_level,
             c.room_number,
