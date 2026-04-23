@@ -1,4 +1,5 @@
 import asyncio
+import math
 
 from app.routers import students, classes, teachers
 from fastapi import FastAPI
@@ -55,3 +56,10 @@ app.include_router(teachers.router)
 @app.get("/")
 async def read_root():
     return {"message": "Aroyehun School Management System API online"}
+
+@app.get("/compute")
+def compute():
+    # Artificial CPU load: Calculate square roots in a loop
+    # Adjust the range if 1,000,000 is too fast for your machine
+    result = [math.sqrt(i) for i in range(1_000_000)]
+    return {"status": "done"}
