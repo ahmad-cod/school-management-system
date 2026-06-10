@@ -7,12 +7,9 @@ import {
   Users,
   GraduationCap,
   BookOpen,
-  Calendar,
   ClipboardList,
   BarChart3,
   Settings,
-  Bell,
-  MessageSquare,
   FileText,
   DollarSign,
 } from "lucide-react"
@@ -23,16 +20,13 @@ const navigation = [
   { name: "Students", href: "/students", icon: Users },
   { name: "Teachers", href: "/teachers", icon: GraduationCap },
   { name: "Classes", href: "/classes", icon: BookOpen },
-  { name: "Schedule", href: "/schedule", icon: Calendar },
   { name: "Attendance", href: "/attendance", icon: ClipboardList },
   { name: "Grades", href: "/grades", icon: BarChart3 },
   { name: "Fees", href: "/fees", icon: DollarSign },
   { name: "Reports", href: "/reports", icon: FileText },
-  { name: "Messages", href: "/messages", icon: MessageSquare },
 ]
 
 const bottomNavigation = [
-  { name: "Notifications", href: "/notifications", icon: Bell },
   { name: "Settings", href: "/settings", icon: Settings },
 ]
 
