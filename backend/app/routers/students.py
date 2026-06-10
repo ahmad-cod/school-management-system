@@ -24,7 +24,8 @@ async def list_students(db=Depends(get_db)):
             s.student_id,
             s.first_name || ' ' || s.last_name  AS full_name,
             c.class_name,
-            c.grade_level
+            c.grade_level,
+            CASE WHEN s.is_active THEN 'active' ELSE 'inactive' END AS status
         FROM students s
         JOIN classes c ON s.class_id = c.class_id
         ORDER BY c.grade_level, c.class_name, s.last_name

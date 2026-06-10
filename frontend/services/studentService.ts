@@ -5,6 +5,7 @@ export interface StudentRecord {
   full_name: string;
   class_name: string;
   grade_level: number;
+  status: "active" | "inactive";
 }
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api/v1";
