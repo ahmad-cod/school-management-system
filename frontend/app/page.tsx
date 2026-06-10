@@ -1,70 +1,60 @@
-"use client";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+"use client"
+
+import { DashboardLayout } from "@/components/dashboard/dashboard-layout"
+import { AttendanceChart } from "@/components/dashboard/attendance-chart"
+import { RecentActivity } from "@/components/dashboard/recent-activity"
+import { StatsCard } from "@/components/dashboard/stats-card"
+import { TopStudents } from "@/components/dashboard/top-students"
+import { BarChart3, BookOpen, CreditCard, Users } from "lucide-react"
 
 export default function Home() {
-  const [message, setMessage] = useState("Connecting to Backend...");
-  
-  useEffect(() => {
-    fetch('http://localhost:8000/')
-      .then(response => response.json())
-      .then(data => setMessage(data.message))
-      .catch(() => setMessage("Failed to connect to backend"));
-  }, []);
-
-
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <h1 className="text-4xl font-bold mb-4">School Management System</h1>
-        <div className="p-4 bg-blue-100 text-green-800 rounded-lg">
-          Backend Status: <strong>{message}</strong>
+    <DashboardLayout
+      title="Dashboard"
+      subtitle="Operational overview for the current academic term"
+    >
+      <div className="space-y-6">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <StatsCard
+            title="Active Students"
+            value="24"
+            change="Across 6 classes"
+            changeType="neutral"
+            icon={Users}
+          />
+          <StatsCard
+            title="Attendance Rate"
+            value="91%"
+            change="Weekly average"
+            changeType="positive"
+            icon={BookOpen}
+            iconColor="text-chart-2"
+          />
+          <StatsCard
+            title="Average Score"
+            value="77.8%"
+            change="Term 1 assessments"
+            changeType="positive"
+            icon={BarChart3}
+            iconColor="text-chart-3"
+          />
+          <StatsCard
+            title="Outstanding Fees"
+            value="N240k"
+            change="From unpaid balances"
+            changeType="negative"
+            icon={CreditCard}
+            iconColor="text-chart-5"
+          />
         </div>
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(360px,0.8fr)]">
+          <AttendanceChart />
+          <TopStudents />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+
+        <RecentActivity />
+      </div>
+    </DashboardLayout>
+  )
 }
